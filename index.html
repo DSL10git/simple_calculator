@@ -9,7 +9,25 @@
 <body>
     <h1>Simple Calculator</h1>
     <section class="pyscript">
-        <p>Operator: <input id="operator" type="text" /></p>
+        <p>Operator:</p>
+        <input type="radio" id="op-add" name="operator" value="+" checked>
+        <label for="html">+</label>
+        
+        <input type="radio" id="op-sub" name="operator" value="-">
+        <label for="html">-</label><br>
+
+        <input type="radio" id="op-div" name="operator" value="/">
+        <label for="html">/</label>
+
+        <input type="radio" id="op-mul" name="operator" value="*">
+        <label for="html">*</label><br>
+
+        <input type="radio" id="op-exp" name="operator" value="^">
+        <label for="html">^</label>
+
+        <input type="radio" id="op-mod" name="operator" value="%">
+        <label for="html">%</label><br>
+
         <p>First number: <input id="num1" type="number" step="any" /></p>
         <p>Second number: <input id="num2" type="number" step="any" /></p>
         <p>Round Digits: <input id="round-digits" type="number" /></p>

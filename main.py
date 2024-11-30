@@ -1,5 +1,5 @@
 def main():
-    operators = ('+', '-', '/', '^', '*', '%')
+    operators = ('+', '-', '/', '*', '^', '%')
     operators_str = " ".join(operators)
     a = input(f"Pick a operator {operators_str}: ")
     while a not in operators:
@@ -59,16 +59,38 @@ def check_inputs(operator, num1, num2, round_digits):
 
     """
     operators = ('+', '-', '/', '^', '*', '%')
-    check1_passed = True
-    check2_passed = True
+    check_operator_passed = True
+    check_num1_passed = True
+    check_num2_passed = True
+    check_round_digits_passed = True
     error_message = None
     if operator not in operators:
         error_message = f"Invalid operator"
-        check1_passed = False
+        check_operator_passed = False
+    
+    try:
+        float(num1)
+    except ValueError:
+        error_message = "Invalid first number"
+        return False, error_message
+
+    try:
+        float(num2)
+    except ValueError:
+        error_message = "Invalid second number"
+        return False, error_message
+
     if num2 == 0 and operator == "/":
         error_message = f"The second number cannot be zero when dividing"
-        check2_passed = False
-    return check1_passed and check2_passed, error_message
+        return False, error_message
+
+    try:
+        int(round_digits)
+    except ValueError:
+        error_message = "Invalid round digits"
+        return False, error_message
+    
+    return True, error_message
     
 
 def compute(operator, num1, num2, round_digits=None):
@@ -104,14 +126,20 @@ def html_main(p):
     from pyscript import document
 
     result = document.querySelector("#result")
-    operator = document.querySelector("#operator")
+    operators = document.querySelectorAll("input[name='operator']")
+    found = None
+    for operator in operators:
+        if operator.checked:
+            found = operator
+    operator = found
+
     operator = operator.value
     num1 = document.querySelector("#num1")
-    num1 = float(num1.value)
+    num1 = num1.value
     num2 = document.querySelector("#num2")
-    num2 = float(num2.value)
+    num2 = num2.value
     round_digits = document.querySelector("#round-digits")
-    round_digits = int(round_digits.value)
+    round_digits = round_digits.value
 
     """
     run check_inputs
@@ -119,9 +147,12 @@ def html_main(p):
     otherwise display error message
     """
     passed, error_message = check_inputs(operator, num1, num2, round_digits)
-    
 
     if passed:
+        # Cast input
+        num1 = float(num1)
+        num2 = float(num2)
+        round_digits = int(round_digits)
         result2 = compute(operator, num1, num2, round_digits)
         result.innerText = f"{result2}"
     else:
